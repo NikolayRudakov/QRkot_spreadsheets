@@ -1,14 +1,11 @@
 # app/api/endpoints/google_api.py
 
-from datetime import datetime
-
 from aiogoogle import Aiogoogle
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db import get_async_session
 from app.core.google_client import get_service
-from app.core.user import current_superuser
 
 from app.crud.charityproject import charity_project_crud
 
@@ -25,7 +22,8 @@ router = APIRouter()
 @router.get(
     "/",
     response_model=list[dict]
-    # Определяем зависимости    dependencies=[Depends(current_superuser)],
+    # Определяем зависимости, если нужно
+    # dependencies=[Depends(current_superuser)],
 )
 async def get_report(
     session: AsyncSession = Depends(get_async_session),
